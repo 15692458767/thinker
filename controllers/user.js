@@ -1,9 +1,13 @@
 exports.signinForm = (req, res)=>{
-    res.render('signin');
+    
 }
 exports.signin = (req, res)=>{}
-exports.signupForm = (req, res)=>{}
-exports.signup = (req, res)=>{}
+exports.signupForm = (req, res)=>{
+    res.render('signup');
+}
+exports.signup = (req, res)=>{
+    res.send('reveive');
+}
 exports.signout = (req, res)=>{}
 
 

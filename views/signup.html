@@ -16,7 +16,7 @@
       </a>
       <h1>用户注册</h1>
     </div>
-    <form id="signup_form">
+    <form id="myForm">
       <div class="form-group">
         <label for="email">邮箱</label>
         <input type="email" class="form-control" id="email" name="email" placeholder="Email" autofocus required>
@@ -37,43 +37,30 @@
   </div>
   <script src="/node_modules/jquery/dist/jquery.js"></script>
   <script>
-    // 1. 为表单注册提交事件处理方法
+    // 1. 为表单提交绑定事件处理程序
     // 2. 收集表单数据
     // 3. 表单验证
     // 4. 验证通过发起注册请求
     // 5. 根据服务端响应结果做交互处理
 
-    var $signupForm = $('#signup_form')
+    var $myForm = $('#myForm');
+    $myForm.on('submit',function(e){
+      e.preventDefault();
+      signup()
+    });
 
-    $signupForm.on('submit', function (e) {
-      e.preventDefault()
-      handleSignup()
-    })
-
-    function handleSignup() {
-      var formData = $signupForm.serialize()
+    function signup(){
+      var formData = $myForm.serialize();
       $.ajax({
-        url: '/signup',
-        method: 'post',
-        data: formData,
-        dataType: 'json',
-        success: function (data) {
-          var code = data.code
-          switch (code) {
-            case 0:
-              window.location.href = '/'
-              break
-            case 1:
-              window.alert('邮箱已存在')
-              break
-            case 2:
-              window.alert('昵称已存在')
-              break
-          }
+        url:'/signup',
+        method:'post',
+        data:formData,
+        dataType:'json',
+        success:function(res){
+          console.log(res);
         },
-        error: function (err) {
-          window.alert('请求失败了')
-          console.log(err)
+        error:function(err){
+          console.log(err);
         }
       })
     }
