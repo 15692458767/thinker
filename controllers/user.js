@@ -83,7 +83,11 @@ exports.signup = (req, res)=>{
             });
         }
         if(ret){
-            
+            // 存储用户数据到session
+            req.session.user = {
+                ...req.body,
+                id:ret.insertId
+            }
             return res.status(200).send({
                 code:3,
                 message:'注册成功'
