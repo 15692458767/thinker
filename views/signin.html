@@ -16,7 +16,7 @@
       </a>
       <h1>用户登录</h1>
     </div>
-    <form id="signin_form">
+    <form id="myForm">
       <div class="form-group">
         <label for="inputEmail">邮箱</label>
         <input type="email" class="form-control" id="inputEmail" name="email" placeholder="Email" autofocus required>
@@ -45,37 +45,33 @@
     // 4. 验证通过发起登陆请求
     // 5. 根据服务端响应结果做交互处理
 
-    var $signinForm = $('#signin_form')
+    var $myForm = $('#myForm');
+    $myForm.on('submit',function(e){
+      e.preventDefault();
+      signin()
+    });
 
-    $signinForm.on('submit', function (e) {
-      e.preventDefault()
-      handleSignin()
-    })
-
-    function handleSignin() {
-      var formData = $signinForm.serialize()
+    function signin(){
+      var formData = $myForm.serialize();
       $.ajax({
-        url: '/signin',
-        method: 'post',
-        data: formData,
-        dataType: 'json',
-        success: function (data) {
-          var code = data.code
-          switch (code) {
+        url:'/signin',
+        method:'post',
+        data:formData,
+        dataType:'json',
+        success:function(res){
+          switch(res.code){
             case 0:
-              window.location.href = '/'
-              break
+              // 注册成功后转向后台首页
+              window.location.href="/";
+              break;
             case 1:
-              window.alert('用户不存在')
-              break
             case 2:
-              window.alert('密码错误')
-              break
+              alert('请检查帐号与密码');
+              break;
           }
         },
-        error: function (err) {
-          window.alert('请求失败了')
-          console.log(err)
+        error:function(err){
+          console.log(err);
         }
       })
     }

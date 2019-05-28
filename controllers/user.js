@@ -3,9 +3,39 @@ const user = require('../models/user.js');
 const md5 = require('blueimp-md5');
 
 exports.signinForm = (req, res)=>{
-    
+    res.render('signin');
 }
-exports.signin = (req, res)=>{}
+exports.signin = (req, res)=>{
+    user.findByEmail(req.body.email, (err,ret)=>{
+        if(err){
+            return res.status(500).json({
+                error:err.message
+            });
+        }
+
+        // 如果用户存在
+        if(!ret){
+            return res.status(200).json({
+                code:1,
+                message:'帐号不存在'
+            });
+        }
+        
+        // 校验密码
+        if(md5(req.body.password) !== ret.password){
+            return res.status(200).json({
+                code:2,
+                message:'密码不正确'
+            });
+        }
+
+        // 登陆成功
+        res.status(200).json({
+            code:0,
+            message:'登陆成功'
+        });
+    });
+}
 exports.signupForm = (req, res)=>{
     res.render('signup');
 }
