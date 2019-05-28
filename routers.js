@@ -16,7 +16,7 @@ router.get('/signin', userController.signinForm);
 router.post('/signin', userController.signin);
 router.get('/signup', userController.signupForm);
 router.post('/signup', userController.signup);
-router.post('/signout', userController.signout);
+router.get('/signout', userController.signout);
 router.get('/topic/create', topicController.topicForm);
 router.post('/topic/store', topicController.topicStore);
 router.get('/topic/:topicID', topicController.topicShow);

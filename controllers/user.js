@@ -95,6 +95,13 @@ exports.signup = (req, res)=>{
         }
     });
 }
-exports.signout = (req, res)=>{}
+exports.signout = (req, res)=>{
+    // 删除session 通过删除对象的属性
+    delete req.session.user
+
+    // 转向登陆页
+    res.redirect('/signin');
+
+}
 
 
