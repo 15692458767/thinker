@@ -57,8 +57,18 @@
         data:formData,
         dataType:'json',
         success:function(res){
-          // console.log(res);
-          
+          switch(res.code){
+            case 3:
+              // 注册成功后转向后台首页
+              window.location.href="/";
+              break;
+            case 2:
+              alert('昵称已存在');
+              break;
+            case 1:
+              alert('邮箱已存在');
+              break;
+          }
         },
         error:function(err){
           console.log(err);

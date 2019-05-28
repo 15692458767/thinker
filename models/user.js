@@ -29,6 +29,6 @@ exports.store = (content,callback)=>{
         if(err){
             return callback(err);
         }
-        callback(null, result[0]);
+        callback(null, result);
     });
 }

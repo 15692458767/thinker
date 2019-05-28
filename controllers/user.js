@@ -45,12 +45,14 @@ exports.signup = (req, res)=>{
     // 对密码进行md5加密
     req.body.password = md5(req.body.password);
     user.store(req.body,(err, ret)=>{
+
         if(err){
             return res.status(500).json({
                 error:err.message
             });
         }
         if(ret){
+            
             return res.status(200).send({
                 code:3,
                 message:'注册成功'
