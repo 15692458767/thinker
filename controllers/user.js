@@ -30,6 +30,7 @@ exports.signin = (req, res)=>{
         }
 
         // 登陆成功
+        req.session.user = ret;
         res.status(200).json({
             code:0,
             message:'登陆成功'
