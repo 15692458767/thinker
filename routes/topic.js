@@ -11,5 +11,6 @@ router.get('/:topicID', topicController.topicShow);
 router.get('/:topicID/edit', topicController.topicEdit);
 router.post('/:topicID/update', topicController.topicUpdate);
 router.post('/:topicID/delete', topicController.topicDelete);
+
 // 4、导出路由
 module.exports = router;

@@ -23,7 +23,7 @@ app.use(session({
 // 通过注册中间件来满足第3个条件
 app.use((req, res, next)=>{
     app.locals.user = req.session.user;
-    console.log(app.locals.user);
+    // console.log(app.locals.user);
     next();
 });
 
@@ -54,12 +54,14 @@ const index = require('./routes/index.js');
 const user = require('./routes/user.js');
 const topic = require('./routes/topic.js');
 
+// 引入认证模块
+const authen = require('./middleware/authen');
 
 // 6、挂载路由到app实例
 // app.use(router);  //不再挂载router
 app.use(index);
 app.use(user);
-app.use('/topic', topic);
+app.use('/topic', authen, topic);
 
 // 统一处理错误的中间件
 app.use((err, req, res, next)=>{
@@ -67,3 +69,13 @@ app.use((err, req, res, next)=>{
     res.status(500).send('Somthing Went Wrong');
 });
 
+// function authen(req, res, next){
+//     // 单独控制
+//     if(!req.session.user){
+//         return res.redirect('/signin');
+//     }
+
+//     // 需要设置next()，不然在登陆成功后状态，访问topic/create不会向后继续
+//     // 因为authen，在topicForm方法之前
+//     next();
+// }
