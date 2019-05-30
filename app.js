@@ -53,3 +53,8 @@ app.use(index);
 app.use(user);
 app.use('/topic', topic);
 
+// 统一处理错误的中间件
+app.use((err, req, res, next)=>{
+    console.log(err.stack);
+    res.status(500).send('Somthing Went Wrong');
+});

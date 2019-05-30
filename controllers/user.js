@@ -5,12 +5,13 @@ const md5 = require('blueimp-md5');
 exports.signinForm = (req, res)=>{
     res.render('signin');
 }
-exports.signin = (req, res)=>{
+exports.signin = (req, res, next)=>{
     user.findByEmail(req.body.email, (err,ret)=>{
         if(err){
-            return res.status(500).json({
-                error:err.message
-            });
+            // return res.status(500).json({
+            //     error:err.message
+            // });
+            return next(err);
         }
 
         // 如果用户存在
