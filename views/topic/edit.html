@@ -19,7 +19,7 @@
       {{ if topic.userId !== user.id }}
       <div class="alert alert-danger" role="alert">非法操作</div>
       {{ else }}
-      <form id="myForm" method="post" action="/topic/store">
+      <form id="myForm" method="post" action="/topic/{{ topic.id }}/update">
         <div class="form-group">
           <label for="exampleInputEmail1">选择板块</label>
           <select class="form-control" name="categoryId">
@@ -47,14 +47,15 @@
   <script src="/node_modules/jquery/dist/jquery.js"></script>
   <script src="/node_modules/bootstrap/dist/js/bootstrap.js"></script>
   <script src="/node_modules/jquery-form/dist/jquery.form.min.js"></script>
-  
   <script src="/public/lepture_editor/editor.js"></script>
   <script src="/public/lepture_editor/marked.js"></script>
 </body>
 </html>
 <script>
   $(function(){
-    
+    // 应用富文本编辑器
+    var editor = new Editor();
+    editor.render();
 
     var $myForm =$('#myForm');
     $myForm.on('submit', function(e){
@@ -65,12 +66,9 @@
         // console.log(data); 
         switch(data.code){
           case 0:
-            window.location.href="/"
+            window.location.href=data.data.redirect;
         }
       });
     });
-    // 应用富文本编辑器
-    var editor = new Editor();
-    editor.render();
   })
 </script>

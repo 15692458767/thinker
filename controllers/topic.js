@@ -70,7 +70,23 @@ exports.topicEdit = (req, res, next)=>{
         
     });
 }
-exports.topicUpdate = (req, res)=>{}
+exports.topicUpdate = (req, res, next)=>{
+    const id = req.params.topicID;
+    const body = req.body;
+    topic.update(id, body, (err, result)=>{
+        if(err){
+            return next(err);
+        }
+        return res.status(200).json({
+            code:0,
+            data:{
+                redirect:`/topic/${id}`
+            },
+            message:'success '
+        });
+    });
+    
+}
 exports.topicDelete = (req, res, next)=>{
     // res.send(req.params.topicID);
     const id = req.params.topicID;

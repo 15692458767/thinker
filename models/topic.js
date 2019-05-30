@@ -34,3 +34,15 @@ exports.delete = (id, callback)=>{
         callback(null, result);
     });
 }
+
+exports.update = (id, topic, callback)=>{
+    const sql = "update topics set title=?,content=?,categoryId=? where id=?";
+     
+    query(sql, [topic.title,topic.content,topic.categoryId,id], (err, result) =>{
+        if(err){
+            return callback(err);
+        }
+        callback(null, result);
+    });
+}
+
