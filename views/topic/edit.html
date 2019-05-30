@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css">
+
+  <link rel="stylesheet" href="/public/lepture_editor/editor.css">
+  <link rel="stylesheet" href="/public/lepture_editor/icomoon.woff">
 </head>
 
 <body>
@@ -11,32 +13,64 @@
   <section class="container">
   <div class="row">
     <div class="col-md-5">
-      <form>
+      {{ if !topic }}
+      <div class="alert alert-danger" role="alert">此话题不存在</div>
+      {{ else }}
+      {{ if topic.userId !== user.id }}
+      <div class="alert alert-danger" role="alert">非法操作</div>
+      {{ else }}
+      <form id="myForm" method="post" action="/topic/store">
         <div class="form-group">
           <label for="exampleInputEmail1">选择板块</label>
-          <select class="form-control">
-            <option>分享</option>
-            <option>问答</option>
-            <option>招聘</option>
-            <option>客户端测试</option>
+          <select class="form-control" name="categoryId">
+            {{ each topics }}
+            <option value="{{ $value.id }}" {{ if $value.id=== topic.categoryId}} selected {{ /if }}>{{ $value.name }}</option>
+            {{ /each }}
           </select>
         </div>
         <div class="form-group">
-          <label for="exampleInputEmail1">标题</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+          <label for="title">标题</label>
+          <input type="text" name="title" value="{{ topic.title }}" class="form-control" id="title" placeholder="标题">
         </div>
         <div class="form-group">
-          <label for="exampleInputPassword1">内容</label>
-          <textarea class="form-control" rows="3"></textarea>
+          <label for="content">内容</label>
+          <textarea class="form-control" rows="3" id="content" name="content">{{ topic.content }}</textarea>
         </div>
         <button type="submit" class="btn btn-default">Submit</button>
       </form>
+      {{ /if }}
+      {{ /if }}
     </div>
   </div>
 </section>
   {{include '../_includes/footer.html'}}
   <script src="/node_modules/jquery/dist/jquery.js"></script>
   <script src="/node_modules/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="/node_modules/jquery-form/dist/jquery.form.min.js"></script>
+  
+  <script src="/public/lepture_editor/editor.js"></script>
+  <script src="/public/lepture_editor/marked.js"></script>
 </body>
-
 </html>
+<script>
+  $(function(){
+    
+
+    var $myForm =$('#myForm');
+    $myForm.on('submit', function(e){
+      // 阻止默认行为
+      e.preventDefault();
+
+      $myForm.ajaxSubmit(function(data){
+        // console.log(data); 
+        switch(data.code){
+          case 0:
+            window.location.href="/"
+        }
+      });
+    });
+    // 应用富文本编辑器
+    var editor = new Editor();
+    editor.render();
+  })
+</script>

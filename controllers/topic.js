@@ -48,7 +48,28 @@ exports.topicShow = (req, res, next)=>{
         });
     });
 }
-exports.topicEdit = (req, res)=>{}
+exports.topicEdit = (req, res, next)=>{
+    // 动态获取路由参数
+    // console.log(req.params.topicID)
+    const id = req.params.topicID;
+    topic.getById(id, (err, result)=>{
+        if(err){
+            return next(err);
+        }
+
+        topic.getAll((err, topics)=>{
+            if(err){
+                return next(err);
+            }
+
+            res.render('topic/edit', {
+                topic:result,    //当前话题
+                topics          //话题类型
+            });
+        });
+        
+    });
+}
 exports.topicUpdate = (req, res)=>{}
 exports.topicDelete = (req, res, next)=>{
     // res.send(req.params.topicID);
