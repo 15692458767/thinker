@@ -1,5 +1,6 @@
 const topic = require('../models/topic');
 const moment = require('moment');
+const marked = require('marked');
 
 exports.topicForm = (req, res, next)=>{
     topic.getAll((err, topics)=>{
@@ -39,7 +40,9 @@ exports.topicShow = (req, res, next)=>{
         if(err){
             return next(err);
         }
-
+        // 将内容转换为html
+        result && (result.content = marked(result.content));
+        
         res.render('topic/show', {
             topic:result
         });
