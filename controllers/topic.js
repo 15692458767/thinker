@@ -53,13 +53,32 @@ exports.topicUpdate = (req, res)=>{}
 exports.topicDelete = (req, res, next)=>{
     // res.send(req.params.topicID);
     const id = req.params.topicID;
-    topic.delete(id, (err, result)=>{
+    // 根据id查询出话题，判断当前用户的id是否匹配话题的所有者id
+    topic.getById(id,(err, result)=>{
         if(err){
             return next(err);
         }
-        res.status(200).json({
-            code:0, 
-            message:'success'
+        if(!result){
+            return res.status(200).json({
+                code:1,
+                message:'资源不存在'
+            });
+        }
+        if(result.userId !== req.session.user.id ){
+            return res.status(200).json({
+                code:2,
+                message:'Bad Boy'
+            });
+        }
+        // 
+        topic.delete(id, (err, result)=>{
+            if(err){
+                return next(err);
+            }
+            res.status(200).json({
+                code:0, 
+                message:'success'
+            });
         });
     });
 }
