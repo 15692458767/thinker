@@ -21,7 +21,16 @@
       
       <article class="markdown-body">
       <h1 id="_1"><a name="user-content-_1" href="#_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>{{ topic.title }}</h1>
+      <p>发布于 2 分钟之前 作者：thinker 2 次浏览 来自于</p>
+      {{ if topic.userId === user.id }}
+      <p>
+        <a href="/topic/{{topic.id}}/edit"><span class="glyphicon glyphicon-edit"></span></a> 
+        <a id="delete" href="/topic/{{topic.id}}/delete"><span class="glyphicon glyphicon-trash"></span></a>
+      </p>
+      {{ /if }}
+      <div id="line"></div>
       <div>{{@ topic.content }}</div>
+
       </article>
 
       {{ else }}
@@ -116,3 +125,23 @@
 </body>
 
 </html>
+<script>
+  $(function(){
+    $('#delete').on('click', function(e){
+      e.preventDefault();
+
+      if(!window.confirm('You sure?')){
+        return
+      }
+
+      var url = $(this).attr('href');
+      $.post(url, function(res){
+        // console.log(res);
+        switch(res.code){
+          case 0:
+            window.location.href = '/';
+        }
+      });
+    })
+  })
+</script>

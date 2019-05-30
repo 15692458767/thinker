@@ -24,3 +24,13 @@ exports.getById = (id, callback)=>{
         callback(null, result[0]);
     });
 }
+
+exports.delete = (id, callback)=>{
+    const sql = "delete from topics where id=?";
+    query(sql, [id], (err, result) =>{
+        if(err){
+            return callback(err);
+        }
+        callback(null, result);
+    });
+}

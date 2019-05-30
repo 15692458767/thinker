@@ -50,4 +50,16 @@ exports.topicShow = (req, res, next)=>{
 }
 exports.topicEdit = (req, res)=>{}
 exports.topicUpdate = (req, res)=>{}
-exports.topicDelete = (req, res)=>{}
+exports.topicDelete = (req, res, next)=>{
+    // res.send(req.params.topicID);
+    const id = req.params.topicID;
+    topic.delete(id, (err, result)=>{
+        if(err){
+            return next(err);
+        }
+        res.status(200).json({
+            code:0, 
+            message:'success'
+        });
+    });
+}
