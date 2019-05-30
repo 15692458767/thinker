@@ -29,7 +29,7 @@ app.use(session({
     // 设置上存储session数据到数据库所用的实例
     store:sessionStore,
     cookie:{
-        maxAge:10000    //单位是毫秒
+        maxAge:1000*3600*24    //单位是毫秒
     }
 }));
 

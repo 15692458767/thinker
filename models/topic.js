@@ -14,3 +14,13 @@ exports.store = (content, callback) =>{
         callback(null, result);
     });
 }
+
+exports.getById = (id, callback)=>{
+    const sql = "select * from topics where id=?";
+    query(sql, [id], (err, result) =>{
+        if(err){
+            return callback(err);
+        }
+        callback(null, result[0]);
+    });
+}

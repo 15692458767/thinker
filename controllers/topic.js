@@ -31,7 +31,20 @@ exports.topicStore = (req, res, next)=>{
         });
     });
 }
-exports.topicShow = (req, res)=>{}
+exports.topicShow = (req, res, next)=>{
+    // 动态获取路由参数
+    // console.log(req.params.topicID)
+    const id = req.params.topicID;
+    topic.getById(id, (err, result)=>{
+        if(err){
+            return next(err);
+        }
+
+        res.render('topic/show', {
+            topic:result
+        });
+    });
+}
 exports.topicEdit = (req, res)=>{}
 exports.topicUpdate = (req, res)=>{}
 exports.topicDelete = (req, res)=>{}
