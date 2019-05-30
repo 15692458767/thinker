@@ -1,5 +1,8 @@
 exports.topicForm = (req, res)=>{
-    res.send(req.path);
+    // 返回视图文件
+    res.render('./topic/create',{
+        user:req.session.user
+    });
 }
 exports.topicStore = (req, res)=>{}
 exports.topicShow = (req, res)=>{}
