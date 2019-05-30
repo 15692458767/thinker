@@ -17,12 +17,18 @@
   <section class="container">
   <div class="row">
     <div class="col-md-9">
+      {{ if topic }}
+      
       <article class="markdown-body">
       <h1 id="_1"><a name="user-content-_1" href="#_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>{{ topic.title }}</h1>
-      
-        <div>{{@ topic.content }}</div>
+      <div>{{@ topic.content }}</div>
+      </article>
 
-    </article>
+      {{ else }}
+      
+      <div class="alert alert-danger" role="alert">此话题不存在</div>
+      
+      {{ /if }}
       <div class="panel panel-default">
         <div class="panel-heading">
           <span>lipengzhou</span> commented 
