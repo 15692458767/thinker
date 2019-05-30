@@ -69,13 +69,13 @@ app.use((err, req, res, next)=>{
     res.status(500).send('Somthing Went Wrong');
 });
 
-// function authen(req, res, next){
-//     // 单独控制
-//     if(!req.session.user){
-//         return res.redirect('/signin');
-//     }
 
-//     // 需要设置next()，不然在登陆成功后状态，访问topic/create不会向后继续
-//     // 因为authen，在topicForm方法之前
-//     next();
-// }
+// 请求会去上面的中间件一个一个匹配
+// 当能走到这里时，就是所有的中间件都没有匹配成功
+// 就意味着请求的路径不对
+app.use('/', (req, res, next)=>{
+    // 设置状态码
+    res.status(404);
+    // 返回视图
+    res.render('../404.html');
+});
