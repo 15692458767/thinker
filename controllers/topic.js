@@ -1,4 +1,6 @@
-exports.topicForm = (req, res)=>{}
+exports.topicForm = (req, res)=>{
+    res.send(req.path);
+}
 exports.topicStore = (req, res)=>{}
 exports.topicShow = (req, res)=>{}
 exports.topicEdit = (req, res)=>{}

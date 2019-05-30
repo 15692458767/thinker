@@ -12,11 +12,13 @@ const commentController = require('./controllers/comment');
 
 // 3、添加路由
 router.get('/', indexController.index);
+
 router.get('/signin', userController.signinForm);
 router.post('/signin', userController.signin);
 router.get('/signup', userController.signupForm);
 router.post('/signup', userController.signup);
 router.get('/signout', userController.signout);
+
 router.get('/topic/create', topicController.topicForm);
 router.post('/topic/store', topicController.topicStore);
 router.get('/topic/:topicID', topicController.topicShow);

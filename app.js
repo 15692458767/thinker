@@ -41,8 +41,15 @@ app.set('view options',{
 });
 
 // 5、导入路由模块
-const router = require('./routers.js');
+// const router = require('./routers.js'); //不再引入routers.js
+const index = require('./routes/index.js');
+const user = require('./routes/user.js');
+const topic = require('./routes/topic.js');
+
 
 // 6、挂载路由到app实例
-app.use(router);
+// app.use(router);  //不再挂载router
+app.use(index);
+app.use(user);
+app.use('/topic', topic);
 
