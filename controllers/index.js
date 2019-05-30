@@ -7,7 +7,10 @@ exports.index = (req, res, next)=>{
     // } catch (err) {
     //     return next(err);
     // }
-    res.render('index',{
-        user:req.session.user
-    });
+
+    // res.render('index',{
+    //     user:req.session.user
+    // });
+    
+    res.render('index');
 }

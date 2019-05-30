@@ -19,6 +19,14 @@ app.use(session({
     saveUninitialized:false
 }));
 
+// 在配置session之后不满足第1、2个条件
+// 通过注册中间件来满足第3个条件
+app.use((req, res, next)=>{
+    app.locals.user = req.session.user;
+    console.log(app.locals.user);
+    next();
+});
+
 // 配置body-parser表单请求体
 const bodyParser = require('body-parser');
 
