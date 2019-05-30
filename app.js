@@ -7,6 +7,15 @@ const app = express();
 // 引入express-session包
 const session = require('express-session');
 
+// 引入express-mysql-session
+const MySQLStore = require('express-mysql-session')(session);
+
+// 引入数据库配置文件
+const options = require('./config');
+
+// 实例化session的存储对象
+var sessionStore = new MySQLStore(options.dbConfig);
+
 // 设置监听端口
 app.listen(3000,()=>console.log('Server is running on 3000 port'));
 
@@ -16,7 +25,12 @@ app.use(session({
     secret:'thinker',
     resave:false,
     // 无论是否使用session,我都会默认给你分配一把钥匙
-    saveUninitialized:false
+    saveUninitialized:false,
+    // 设置上存储session数据到数据库所用的实例
+    store:sessionStore,
+    cookie:{
+        maxAge:10000    //单位是毫秒
+    }
 }));
 
 // 在配置session之后不满足第1、2个条件
