@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css">
+
+  <link rel="stylesheet" href="/public/lepture_editor/editor.css">
+  <link rel="stylesheet" href="/public/lepture_editor/icomoon.woff">
 </head>
 
 <body>
@@ -37,10 +39,15 @@
   <script src="/node_modules/jquery/dist/jquery.js"></script>
   <script src="/node_modules/bootstrap/dist/js/bootstrap.js"></script>
   <script src="/node_modules/jquery-form/dist/jquery.form.min.js"></script>
+  
+  <script src="/public/lepture_editor/editor.js"></script>
+  <script src="/public/lepture_editor/marked.js"></script>
 </body>
 </html>
 <script>
   $(function(){
+    
+
     var $myForm =$('#myForm');
     $myForm.on('submit', function(e){
       // 阻止默认行为
@@ -54,5 +61,8 @@
         }
       });
     });
+    // 应用富文本编辑器
+    var editor = new Editor();
+    editor.render();
   })
 </script>
