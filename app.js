@@ -67,6 +67,7 @@ app.set('view options',{
 const index = require('./routes/index.js');
 const user = require('./routes/user.js');
 const topic = require('./routes/topic.js');
+const comment = require('./routes/comment.js');
 
 // 引入认证模块
 const authen = require('./middleware/authen');
@@ -76,6 +77,7 @@ const authen = require('./middleware/authen');
 app.use(index);
 app.use(user);
 app.use('/topic', authen, topic);
+app.use('/comment', authen, comment);
 
 // 统一处理错误的中间件
 app.use((err, req, res, next)=>{

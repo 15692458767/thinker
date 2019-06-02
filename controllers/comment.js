@@ -1,6 +1,16 @@
-exports.commentForm = (req, res)=>{}
-exports.commentStore = (req, res)=>{}
-exports.commentShow = (req, res)=>{}
-exports.commentEdit = (req, res)=>{}
-exports.commentUpdate = (req, res)=>{}
-exports.commentDelete = (req, res)=>{}
+exports.store = (req, res, next)=>{
+    res.send(req.path);
+}
+exports.list = (req, res, next)=>{
+    res.send(req.path);
+}
+exports.edit = (req, res, next)=>{
+    res.send(req.path);
+}
+exports.update = (req, res, next)=>{
+    res.send(req.path);
+}
+exports.delete = (req, res, next)=>{
+    res.send(req.path);
+}
+

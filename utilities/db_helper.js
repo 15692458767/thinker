@@ -13,10 +13,11 @@ exports.query = (...args)=>{
         if(err){
             return callback(err);
         }
+
         connection.query(...args,(...params)=>{
             // 释放连接
             connection.release();
-
+            
             callback(...params);
         });
     });
