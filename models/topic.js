@@ -15,6 +15,11 @@ exports.getAll = callback=>{
     query($sql, callback);
 }
 
+exports.getTopicByCate = (categoryId, callback)=>{
+    $sql = "select * from topics where categoryId = ?";
+    query($sql, [categoryId], callback);
+}
+
 exports.store = (content, callback) =>{
     const sql = "insert into topics set id=default,?";
     query(sql, [content], (err, result)=>{

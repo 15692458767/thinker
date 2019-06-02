@@ -9,6 +9,16 @@
 <body>
   {{include './_includes/header.html'}}
   <section class="container">
+    <!-- bootstrap 导航条 -->
+  <nav class="navbar navbar-default">
+    <ul class="nav navbar-nav">
+      <li role="presentation" {{ if !categoryId }}class="active"{{/if}}><a href="/">全部</a></li>
+      {{ each category}}
+      <li role="presentation" {{ if $value.id == categoryId }}class="active"{{/if}}><a href="/?categoryId={{ $value.id }}">{{ $value.name }}</a></li>
+      {{ /each }}
+    </ul>
+  </nav>
+  
   <ul class="media-list">
     {{ each data}}
     <li class="media">
