@@ -1,9 +1,12 @@
+
+const topicCategory = require('../models/topic_category.js');
 const topic = require('../models/topic');
+
 const moment = require('moment');
 const marked = require('marked');
 
 exports.topicForm = (req, res, next)=>{
-    topic.getAll((err, topics)=>{
+    topicCategory.getAll((err, topics)=>{
         if(err){
             return next(err);
         }
@@ -57,7 +60,7 @@ exports.topicEdit = (req, res, next)=>{
             return next(err);
         }
 
-        topic.getAll((err, topics)=>{
+        topicCategory.getAll((err, topics)=>{
             if(err){
                 return next(err);
             }
@@ -110,6 +113,7 @@ exports.topicDelete = (req, res, next)=>{
         
     // });
     // 
+        const id = req.params.topicID;
         topic.delete(id, (err, result)=>{
             if(err){
                 return next(err);
