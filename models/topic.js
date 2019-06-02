@@ -1,4 +1,4 @@
-const {query} = require('../utilities/db_helper');
+const {query,whereBuilder} = require('../utilities/db_helper');
 
 /** 
 //  注意：解决之前的疏忽，导致的逻辑问题
@@ -9,6 +9,13 @@ const {query} = require('../utilities/db_helper');
 //     query(sql, callback);
 // }
 **/ 
+
+exports.getTopics = (conditions,callback)=>{
+    console.log(conditions);
+    let where = whereBuilder(conditions);
+    let sql = "select * from topics " + where;
+    query(sql, callback);
+};
 
 exports.getAll = callback=>{
     $sql = "select * from topics";

@@ -21,3 +21,12 @@ exports.query = (...args)=>{
         });
     });
 }
+exports.whereBuilder = (conditions={})=>{
+    let where = " where 1=1";
+    for(let key in conditions){
+        if(conditions[key]){
+            where += ` and ${key}='${conditions[key]}'`;
+        }
+    }
+    return where;
+}
