@@ -1,16 +1,14 @@
-exports.index = (req, res, next)=>{
-    // 测试session
-    // console.log(req.session.user);
-    // 演示错误
-    // try {
-    //     JSON.parse('wrong format');
-    // } catch (err) {
-    //     return next(err);
-    // }
+// 引入话题模型
+const topic = require('../models/topic');
 
-    // res.render('index',{
-    //     user:req.session.user
-    // });
-    
-    res.render('index');
+exports.index = (req, res, next)=>{
+    // 调用模型方法获取所有的话题
+    topic.getAll((err, result)=>{
+        if(err){
+            return next(err);
+        }
+        res.render('index', {
+            data:result
+        });
+    });
 }

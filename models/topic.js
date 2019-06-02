@@ -10,6 +10,11 @@ const {query} = require('../utilities/db_helper');
 // }
 **/ 
 
+exports.getAll = callback=>{
+    $sql = "select * from topics";
+    query($sql, callback);
+}
+
 exports.store = (content, callback) =>{
     const sql = "insert into topics set id=default,?";
     query(sql, [content], (err, result)=>{
