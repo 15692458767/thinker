@@ -18,7 +18,13 @@ exports.store = (req, res, next)=>{
     });
 }
 exports.list = (req, res, next)=>{
-    res.send(req.path);
+    const {topicID} = req.params;
+    Comment.getCommentByTopicId(topicID, (err, result)=>{
+        if(err){
+            return next(err);
+        }
+        res.status(200).json(result);
+    })
 }
 exports.edit = (req, res, next)=>{
     res.send(req.path);

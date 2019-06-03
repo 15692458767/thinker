@@ -16,7 +16,7 @@ module.exports = class Comment{
         this.topicId = topicID,
         this.createdAt = createdAt
     }
-
+    
     //
     save(callback){
         //想调用保存方法就必须实例化对象 
@@ -24,7 +24,12 @@ module.exports = class Comment{
         //this就会得到对象的属性
         query("insert into topic_comments set ?", this, callback);
     }
-
+    
+    // 根据topicID获取所有的评论
+    static getCommentByTopicId(topicID,callback){
+        query("select * from topic_comments where topicId = ?",[topicID], callback);
+    }
+    
     // static的作用是定义静态方法
     // 获取所有评论不需要通过实例化对象，通过类名就可以调用
     static getAll(callback){

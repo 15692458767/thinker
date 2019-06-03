@@ -54,7 +54,11 @@ app.use('/node_modules',express.static('./node_modules/'));
 app.use('/public',express.static('./public/'));
 
 // 配置模板引擎
+// 加载art-template模型，并删除原生语法规则
+require('art-template').defaults.rules.shift();
+// express-art-template会使用art-template，当加载时由于加载过了不会再重新加载
 app.engine('html',require('express-art-template'));
+
 // 要配置此语句
 app.set('view engine','html');
 
