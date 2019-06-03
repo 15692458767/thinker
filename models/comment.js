@@ -26,8 +26,13 @@ module.exports = class Comment{
     }
     
     // 根据topicID获取所有的评论
-    static getCommentByTopicId(topicID,callback){
-        query("select * from topic_comments where topicId = ?",[topicID], callback);
+    static getCommentByTopicId(options,callback){
+        
+        let {topicID, curPage, rowsPerPage} = options;
+        // 计算偏移量
+        let offset = (curPage - 1) * rowsPerPage;
+
+        query("select * from topic_comments where topicId = ? limit ?,?",[topicID, offset, rowsPerPage], callback);
     }
     
     // static的作用是定义静态方法

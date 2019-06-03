@@ -83,7 +83,10 @@
 </html>
 <script>
   function renderComment(){
-    var url = "/comment/{{ topic.id }}/comment"
+    // var url = "/comment/{{ topic.id }}/comment"
+    
+    // 在这个url中会动态拼接页码字符串的
+    var url = "/comment/{{ topic.id }}/comment?curPage=1"
     $.get(url, function(res){
       // console.log(res);
       var commentHtml = template('tpl', {
