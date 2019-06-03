@@ -42,6 +42,9 @@
       <div id="comments">
 
       </div>
+      <div id="pagination">
+
+      </div>
       <hr>
       <form id="myForm" method="post" action="/comment/{{ topic.id }}/comment/store">
         <div class="form-group">
@@ -79,12 +82,22 @@
     <% })%>
   </script>
 
+
+
 </body>
 </html>
 <script>
+  $('#pagination').twbsPagination({
+    totalPages: 35,
+    visiblePages: 7,
+    onPageClick: function (event, page) {
+      $('#page-content').text('Page ' + page);
+    }
+  });
+
   function renderComment(){
     // var url = "/comment/{{ topic.id }}/comment"
-    
+
     // 在这个url中会动态拼接页码字符串的
     var url = "/comment/{{ topic.id }}/comment?curPage=1"
     $.get(url, function(res){
