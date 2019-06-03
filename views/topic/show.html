@@ -138,6 +138,9 @@
         // 失败后调用(如果服务器通过协议头返回401错误,会调用此方法)
         error: function(res){
           // console.log(res);
+          if(res && res.status === 401){
+            window.alert('登陆状态已失效,请重新登陆');
+          }
         }
       });
     });
