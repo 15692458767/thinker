@@ -11,7 +11,7 @@ const {query,whereBuilder} = require('../utilities/db_helper');
 **/ 
 
 exports.getTopics = (conditions,callback)=>{
-    console.log(conditions);
+    // console.log(conditions);
     let where = whereBuilder(conditions);
     let sql = "select * from topics " + where;
     query(sql, callback);

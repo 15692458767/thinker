@@ -109,10 +109,10 @@
         </div>
       </div>
       <hr>
-      <form>
+      <form id="myForm" method="post" action="/comment/{{ topic.id }}/comment/store">
         <div class="form-group">
-          <label for="exampleInputPassword1">添加回复</label>
-          <textarea class="form-control" name="" id="" cols="10" rows="10"></textarea>
+          <label for="content">添加回复</label>
+          <textarea class="form-control" name="content" id="content" cols="10" rows="10"></textarea>
         </div>
         <button type="submit" class="btn btn-success">回复</button>
       </form>
@@ -122,11 +122,25 @@
   {{include '../_includes/footer.html'}}
   <script src="/node_modules/jquery/dist/jquery.js"></script>
   <script src="/node_modules/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="/node_modules/jquery-form/dist/jquery.form.min.js"></script>
 </body>
-
 </html>
 <script>
   $(function(){
+    // jquery.form提交
+    $('#myForm').on('submit', function(e){
+      e.preventDefault();
+      $(this).ajaxSubmit({
+        // 成功后调用(如果服务器通过协议头返回401错误,并不会调用此方法)
+        success: function(res){
+          // console.log(res)
+        },
+        // 失败后调用(如果服务器通过协议头返回401错误,会调用此方法)
+        error: function(res){
+          // console.log(res);
+        }
+      });
+    });
     $('#delete').on('click', function(e){
       e.preventDefault();
 

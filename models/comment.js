@@ -7,19 +7,19 @@ module.exports = class Comment{
     constructor({
         content,
         userId,
-        topicId,
+        topicID,
         createdAt = moment().format("YYYY-MM-DD HH:mm:ss")
     }){
         // 初始化就为实例的属性赋值
         this.content = content,
         this.userId = userId,
-        this.topicId = topicId,
+        this.topicId = topicID,
         this.createdAt = createdAt
     }
 
     //
     save(callback){
-        //想调用保存方法就必须实例化对象
+        //想调用保存方法就必须实例化对象 
         //实例化对象就必须保存数据到对象的属性上
         //this就会得到对象的属性
         query("insert into topic_comments set ?", this, callback);
