@@ -33,7 +33,19 @@ exports.list = (req, res, next)=>{
         if(err){
             return next(err);
         }
-        res.status(200).json(result);
+        // 获取总页数
+        Comment.getTotalRows(topicID, (err, totalRows)=>{
+            if(err){
+                return next(err)
+            }
+            // 组织返回给客户端的数据，其中包含当前页所显示的数据，以及总页数
+            const totalPages = Math.ceil(totalRows/rowsPerPage);
+
+            res.status(200).json({
+                'data':result,
+                totalPages
+            });
+        });
     })
 }
 exports.edit = (req, res, next)=>{

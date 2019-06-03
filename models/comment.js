@@ -27,12 +27,22 @@ module.exports = class Comment{
     
     // 根据topicID获取所有的评论
     static getCommentByTopicId(options,callback){
-        
+
         let {topicID, curPage, rowsPerPage} = options;
         // 计算偏移量
         let offset = (curPage - 1) * rowsPerPage;
 
         query("select * from topic_comments where topicId = ? limit ?,?",[topicID, offset, rowsPerPage], callback);
+    }
+    
+    // 获取总记录数
+    static getTotalRows(topicID,callback){
+        query("select count(*) as totalRows from topic_comments where topicID = ?", [topicID],(err, result)=>{
+            if(err){
+                return callback(err);
+            }
+            callback(null,result[0]['totalRows']);
+        });
     }
     
     // static的作用是定义静态方法

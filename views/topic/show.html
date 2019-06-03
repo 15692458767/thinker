@@ -43,7 +43,6 @@
 
       </div>
       <div id="pagination">
-
       </div>
       <hr>
       <form id="myForm" method="post" action="/comment/{{ topic.id }}/comment/store">
@@ -60,6 +59,7 @@
   <script src="/node_modules/jquery/dist/jquery.js"></script>
   <script src="/node_modules/bootstrap/dist/js/bootstrap.js"></script>
   <script src="/node_modules/jquery-form/dist/jquery.form.min.js"></script>
+  <script src="/node_modules/twbs-pagination/jquery.twbsPagination.min.js"></script>
   <!-- 引入客户端模板引擎 -->
   <script src="/node_modules/art-template/lib/template-web.js"></script>
   <!-- 定义所要遍历的模板 -->
@@ -82,36 +82,39 @@
     <% })%>
   </script>
 
-
-
 </body>
 </html>
 <script>
-  $('#pagination').twbsPagination({
-    totalPages: 35,
-    visiblePages: 7,
-    onPageClick: function (event, page) {
-      $('#page-content').text('Page ' + page);
-    }
-  });
 
-  function renderComment(){
+  function renderComment(page=1){
     // var url = "/comment/{{ topic.id }}/comment"
 
     // 在这个url中会动态拼接页码字符串的
-    var url = "/comment/{{ topic.id }}/comment?curPage=1"
+    var url = "/comment/{{ topic.id }}/comment?curPage="+page
     $.get(url, function(res){
       // console.log(res);
       var commentHtml = template('tpl', {
-        comments:res
+        comments:res.data
       });
       $('#comments').html(commentHtml);
+
+      var totalPages = res.totalPages;
+      $('#pagination').twbsPagination({
+        totalPages: totalPages,
+        visiblePages: 4,
+        onPageClick: function (event, page) {
+          // $('#page-content').text('Page ' + page);
+          renderComment(page);
+        }
+      });
     })
   }
 
   // 首次显示时就调用一次，不然没数据
   renderComment();
   
+  
+
   $(function(){
     // jquery.form提交
     $('#myForm').on('submit', function(e){
