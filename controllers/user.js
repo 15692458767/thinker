@@ -5,14 +5,9 @@ const md5 = require('blueimp-md5');
 exports.signinForm = (req, res)=>{
     res.render('signin');
 }
-exports.signin = (req, res, next)=>{
-    user.findByEmail(req.body.email, (err,ret)=>{
-        if(err){
-            // return res.status(500).json({
-            //     error:err.message
-            // });
-            return next(err);
-        }
+exports.signin = async (req, res, next)=>{
+    try{
+        const [ret] = await user.findByEmail(req.body.email);
 
         // 如果用户存在
         if(!ret){
@@ -36,65 +31,46 @@ exports.signin = (req, res, next)=>{
             code:0,
             message:'登陆成功'
         });
-    });
+    }catch(err){
+        next(err);
+    }
 }
+
 exports.signupForm = (req, res)=>{
     res.render('signup');
 }
-exports.signup = (req, res)=>{
-    // console.log(req.body)
-    // 验证邮箱是否重复
-    user.findByEmail(req.body.email,(err,ret)=>{
-        if(err){
-            return res.status(500).json({
-                error:err.message
-            });
-        }
-        if(ret){
-            return res.send({
+exports.signup = async (req, res)=>{
+    try{
+        if((await user.findByEmail(req.body.email))[0]){
+            return res.status(200).json({
                 code:1,
                 message:'邮箱被占用'
             });
         }
-    });
-    // 验证昵称是否重复
-    user.findByNickname(req.body.nickname,(err, ret)=>{
-        if(err){
-            return res.status(500).json({
-                error:err.message
-            });
-        }
-        if(ret){
+        if((await user.findByName(req.body.nickname))[0]){
             return res.status(200).json({
                 code:2,
                 message:'昵称被占用'
             });
         }
-    });
 
-    // res.send(req.body);
-    // 如果验证通过调用
-    // 对密码进行md5加密
-    req.body.password = md5(req.body.password);
-    user.store(req.body,(err, ret)=>{
+        const userInfo = await new user(req.body).store();
+        // 如果验证通过调用 对密码进行md5加密
+        req.body.password = md5(req.body.password);
 
-        if(err){
-            return res.status(500).json({
-                error:err.message
-            });
+        new user(req.body).store();
+        // 存储用户数据到session
+        req.session.user = {
+            ...req.body,
+            id:userInfo.insertId
         }
-        if(ret){
-            // 存储用户数据到session
-            req.session.user = {
-                ...req.body,
-                id:ret.insertId
-            }
-            return res.status(200).send({
-                code:3,
-                message:'注册成功'
-            });
-        }
-    });
+        return res.status(200).send({
+            code:3,
+            message:'注册成功'
+        });
+    }catch(err){
+        next(err);
+    }
 }
 exports.signout = (req, res)=>{
     // 删除session 通过删除对象的属性

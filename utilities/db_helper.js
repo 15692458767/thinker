@@ -5,23 +5,30 @@ const {dbConfig} = require('../config');
 
 const pool = mysql.createPool(dbConfig);
 
-exports.query = (...args)=>{
-
-    const callback = args.pop();
-
-    pool.getConnection((err, connection)=>{
-        if(err){
-            return callback(err);
-        }
-
-        connection.query(...args,(...params)=>{
-            // 释放连接
-            connection.release();
-            
-            callback(...params);
+function getConnection(){
+    return new Promise((resolve, reject)=>{
+        pool.getConnection((err, connection)=>{
+            if(err){
+                return reject(err);
+            }
+            resolve(connection);
         });
     });
 }
+
+exports.query = async (...args)=>{
+    const connection = await getConnection();
+    return new Promise((resolve, reject)=>{
+        connection.release(); 
+        connection.query(...args, (err, result)=>{
+            if(err){
+                return reject(err)
+            }
+            resolve(result);
+        })
+    });
+}
+
 exports.whereBuilder = (conditions={})=>{
     let where = " where 1=1";
     for(let key in conditions){
