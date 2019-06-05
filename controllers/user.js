@@ -7,7 +7,11 @@ exports.signinForm = (req, res)=>{
 }
 exports.signin = async (req, res, next)=>{
     try{
-        const [ret] = await user.findByEmail(req.body.email);
+        const ret = await user.findOne({
+            where:{
+                email:req.body.email
+            }
+        });
 
         // 如果用户存在
         if(!ret){
@@ -41,24 +45,34 @@ exports.signupForm = (req, res)=>{
 }
 exports.signup = async (req, res)=>{
     try{
-        if((await user.findByEmail(req.body.email))[0]){
+        if(await user.findOne({
+            where:{
+                email:req.body.email
+            }
+        })){
             return res.status(200).json({
                 code:1,
                 message:'邮箱被占用'
             });
         }
-        if((await user.findByName(req.body.nickname))[0]){
+        if(await user.findOne({
+            where:{
+                nickname:req.body.nickname
+            }
+        })){
             return res.status(200).json({
                 code:2,
                 message:'昵称被占用'
             });
         }
 
-        const userInfo = await new user(req.body).store();
+        const userInfo = await user.create({
+            ...req.body,
+        });
         // 如果验证通过调用 对密码进行md5加密
         req.body.password = md5(req.body.password);
 
-        new user(req.body).store();
+        // new user(req.body).store();
         // 存储用户数据到session
         req.session.user = {
             ...req.body,
